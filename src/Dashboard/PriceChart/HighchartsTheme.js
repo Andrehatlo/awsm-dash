@@ -1,4 +1,4 @@
-import {lightTheme} from "../Shared/Styles";
+import {lightTheme} from "../../Shared/Styles";
 
 export default {
     colors: [
