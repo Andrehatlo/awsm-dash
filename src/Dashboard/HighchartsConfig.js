@@ -27,6 +27,7 @@ export default function(historical) {
             }
         },
 
+        // INPUT FOR AXIS POINTS
         series: historical,
 
         responsive: {
