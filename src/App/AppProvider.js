@@ -1,9 +1,20 @@
 import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-const cc = require('cryptocompare');
+const CryptoCompare = require('cryptocompare');
+const CoinMarketCap = require('coinmarketcap-api')
 
-cc.setApiKey(process.env.API_KEY)
+// Set CryptoCompare API key
+CryptoCompare.setApiKey(process.env.CC_API_KEY)
+
+// Set CoinMarketCap API key
+const mcApiKey = 'fa5ed0a0-79e5-44e2-8718-164e3f547f67'
+const mc = new CoinMarketCap(mcApiKey)
+
+mc.getTickers().then(console.log).catch(console.error)
+mc.getGlobal().then(console.log).catch(console.error)
+
+console.log(process.env.CC_API_KEY);
 
 export const AppContext = React.createContext();
 
@@ -37,7 +48,7 @@ export class AppProvider extends React.Component {
     }
 
     fetchCoins = async () => {
-        let coinList = (await cc.coinList()).Data;
+        let coinList = (await CryptoCompare.coinList()).Data;
         this.setState({coinList});
     }
 
@@ -79,7 +90,7 @@ export class AppProvider extends React.Component {
         let returnData = [];
         for(let i = 0; i < this.state.favorites.length; i++){
             try {
-                let priceData = await cc.priceFull(this.state.favorites[i], 'USD');
+                let priceData = await CryptoCompare.priceFull(this.state.favorites[i], 'USD');
                 returnData.push(priceData);
             } catch (e){
                 console.warn('Fetch price error: ', e);
@@ -92,7 +103,7 @@ export class AppProvider extends React.Component {
         let promises = [];
         for (let units = TIME_UNITS; units > 0; units--){
             promises.push(
-                cc.priceHistorical(
+                CryptoCompare.priceHistorical(
                     this.state.currentFavorite,
                     ['USD'],
                     moment()
