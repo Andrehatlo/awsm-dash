@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 const cc = require('cryptocompare');
+require('dotenv').config()
+
 
 cc.setApiKey(process.env.API_KEY)
 
