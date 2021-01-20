@@ -3,6 +3,8 @@ import _ from 'lodash';
 import moment from 'moment';
 const cc = require('cryptocompare');
 
+cc.setApiKey(process.env.API_KEY)
+
 export const AppContext = React.createContext();
 
 const MAX_FAVORITES = 10;
@@ -31,6 +33,7 @@ export class AppProvider extends React.Component {
         this.fetchCoins();
         this.fetchPrices();
         this.fetchHistorical();
+        // this.fetchDominance();
     }
 
     fetchCoins = async () => {
@@ -58,6 +61,18 @@ export class AppProvider extends React.Component {
             }
         ]
         this.setState({historical});
+    }
+
+    fetchDominance = async () => {
+        let results = await this.dominance();
+        let dominance = [
+            {
+                name: this.state.currentFavorite,
+                data: results.map((ticker, index ) => [
+
+                ])
+            }
+        ]
     }
 
     prices = async () => {
@@ -115,6 +130,7 @@ export class AppProvider extends React.Component {
         }, () => {
             this.fetchPrices();
             this.fetchHistorical();
+            // this.fetchDominance();
         });
         localStorage.setItem('cryptoDash', JSON.stringify({
             favorites: this.state.favorites,
