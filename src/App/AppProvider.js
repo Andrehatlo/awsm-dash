@@ -1,8 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-const CryptoCompare = require('cryptocompare');
-const CoinMarketCap = require('coinmarketcap-api')
+const cc = require('cryptocompare');
+require('dotenv').config()
+
 
 // Set CryptoCompare API key
 CryptoCompare.setApiKey(process.env.CC_API_KEY)
